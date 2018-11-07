@@ -1,4 +1,5 @@
 
+// constructor for letter
 function letter(value) {
 	this.value = value;
 	this.show = false;
@@ -6,13 +7,17 @@ function letter(value) {
 		this.show = true;
 }
 
-letter.prototype.printInfo = function() {
+// prototype adds a function to existing object
+letter.prototype.printLetter = function() {
+	// if the letter is a space, return the space
 	if (this.show) {
 		return this.value;
 	}
+	// otherwise return 
 	return "_ ";
 }
 
+// constructor for spell
 function spell(value){
 	this.value = value;
 	this.letters = [];
@@ -22,6 +27,7 @@ function spell(value){
 	}
 };
 
+// 
 spell.prototype.isComplete = function(){
 	for(var i = 0; i < this.letters.length; i++){
 
@@ -31,8 +37,18 @@ spell.prototype.isComplete = function(){
 }
 
 spell.prototype.findLetter = function(letter){
+	if(letter.length > 1) {
+		console.log('1************************\n');
+		console.log("You've entered multiple letters... Which one did you mean?");
+		return "Multiple";
+	}
+
+	console.log("find letter: " + letter);
+	// false
 	var lowerLetter = letter.toLowerCase();
 	if (this.guessesMade.indexOf(lowerLetter) != -1) {
+		console.log('2************************\n');
+		console.log("You've already entered that letter. Try Again!");
 		return "Duplicate";
 	} 
 	//Saves guesses so duplicate guesses don't subtract from guesses left.
@@ -42,12 +58,14 @@ spell.prototype.findLetter = function(letter){
 		this.letters[i].show = true;
 		}
 	}
+
+	console.log('************************\n');
 };
 
 spell.prototype.toString = function(){
   var output = "";
   for(var i=0; i<this.letters.length; i++){
-    output += this.letters[i].printInfo();
+    output += this.letters[i].printLetter();
   }
   return output;
 }
