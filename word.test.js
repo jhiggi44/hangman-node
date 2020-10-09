@@ -1,16 +1,32 @@
-const letter = require('./word').letter;
+const { expect } = require('@jest/globals');
 
-test('letter value is the value passed in', () => {
-    let letterA = new letter("a")
-    expect(letterA.value).toEqual("a");
+const word = require('./word').lettersInSpell;
+
+test('word is not complete', () => {
+    const spell = new word("expelliarmus");
+    expect(spell.isComplete()).toBe(false);
 });
 
-test('letter defaults show to false', () => {
-    let letterA = new letter("a")
-    expect(letterA.show).toBe(false);
+test('word is complete', () => {
+    const spell = new word("expelliarmus");
+    spell.letters.forEach(letter => {
+        letter.show = true;
+    });
+    expect(spell.isComplete()).toBe(true);
 });
 
-test('space character show is true', () => {
-    let letterA = new letter(" ")
-    expect(letterA.show).toBe(true);
+test('guess wrong letter in word', () => {
+    const spell = new word("lumos");
+    spell.findLetter("z");
+
+    expect(spell.guessesMade).toEqual("z");
+    expect(spell.toString()).toEqual("_ _ _ _ _ ");
+});
+
+test('guess right letter in word', () => {
+    const spell = new word("lumos");
+    spell.findLetter("u");
+
+    expect(spell.guessesMade).toEqual("u");
+    expect(spell.toString()).toEqual("_ u_ _ _ ");
 });
