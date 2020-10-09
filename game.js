@@ -4,7 +4,7 @@
 // "levicorpus", "morsmordre", "obliviate", 
 // "prior incantato", "riddikulus"]; 
 
-var spellArray = [ "avada kedavra", "prior incantato"]; 
+var spellArray = ["avada kedavra", "prior incantato"]; 
 
 var random = Math.floor(Math.random() * spellArray.length);
 var randomSpell = spellArray[random];

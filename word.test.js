@@ -15,7 +15,7 @@ test('word is complete', () => {
     expect(spell.isComplete()).toBe(true);
 });
 
-test('guess wrong letter in word', () => {
+test('guess wrong letter', () => {
     const spell = new word("lumos");
     spell.findLetter("z");
 
@@ -23,7 +23,7 @@ test('guess wrong letter in word', () => {
     expect(spell.toString()).toEqual("_ _ _ _ _ ");
 });
 
-test('guess right letter in word', () => {
+test('guess right letter', () => {
     const spell = new word("lumos");
     spell.findLetter("u");
 

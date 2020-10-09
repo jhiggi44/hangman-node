@@ -1,19 +1,4 @@
-function letter(value) {
-	this.value = value;
-	this.show = false;
-	if (this.value == ' ') 
-		this.show = true;
-}
-
-// prototype adds a function to existing object
-letter.prototype.printLetter = function() {
-	// if the letter is a space, return the space
-	if (this.show) {
-		return this.value;
-	}
-	// otherwise return 
-	return "_ ";
-}
+const Letter = require('./letter').letter;
 
 // constructor for spell
 function spell(value){
@@ -21,7 +6,7 @@ function spell(value){
 	this.letters = [];
 	this.guessesMade = "";
 	for(var i = 0; i < this.value.length; i++) {
-		this.letters.push(new letter(this.value[i]));
+		this.letters.push(new Letter(this.value[i]));
 	}
 };
 
@@ -52,7 +37,7 @@ spell.prototype.findLetter = function(letter){
 	//Saves guesses so duplicate guesses don't subtract from guesses left.
 	this.guessesMade += lowerLetter;
 	for(var i=0; i<this.letters.length;i++){
-		if(this.letters[i].value.toLowerCase() == lowerLetter){
+		if(this.letters[i].letter.toLowerCase() == lowerLetter){
 		this.letters[i].show = true;
 		}
 	}
@@ -69,4 +54,3 @@ spell.prototype.toString = function(){
 }
 
 module.exports.lettersInSpell = spell;
-module.exports.letter = letter;
