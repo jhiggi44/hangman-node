@@ -1,4 +1,3 @@
-
 // constructor for letter
 function letter(value) {
 	this.value = value;
