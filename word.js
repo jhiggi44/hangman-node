@@ -1,4 +1,3 @@
-// constructor for letter
 function letter(value) {
 	this.value = value;
 	this.show = false;
@@ -69,4 +68,5 @@ spell.prototype.toString = function(){
   return output;
 }
 
-exports.lettersInSpell = spell;
+module.exports.lettersInSpell = spell;
+module.exports.letter = letter;
