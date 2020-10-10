@@ -3,20 +3,20 @@
 class Character {
     constructor(value) {
         this.value = value;
+        this.display = "_ ";
         this.show = false;
     }
 
-    printLetter() {
-        if (this.show) {
-            return this.value;
-        }
-        return "_ ";
+    setDisplayToValue() {
+        this.display = this.value;
+        this.show = true;
     }
 }
 
 class Space extends Character {
     constructor(value) {
         super(value)
+        this.display = value;
         this.show = true;
     }
 }

@@ -1,5 +1,4 @@
 const { expect } = require('@jest/globals');
-
 const word = require('./word').lettersInSpell;
 
 test('word is not complete', () => {

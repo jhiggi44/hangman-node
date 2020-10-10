@@ -38,7 +38,7 @@ spell.prototype.findLetter = function(letter){
 	this.guessesMade += lowerLetter;
 	for(var i=0; i<this.letters.length;i++){
 		if(this.letters[i].value.toLowerCase() == lowerLetter){
-		this.letters[i].show = true;
+		this.letters[i].setDisplayToValue();
 		}
 	}
 
@@ -48,7 +48,7 @@ spell.prototype.findLetter = function(letter){
 spell.prototype.toString = function(){
   var output = "";
   for(var i=0; i<this.letters.length; i++){
-    output += this.letters[i].printLetter();
+    output += this.letters[i].display;
   }
   return output;
 }

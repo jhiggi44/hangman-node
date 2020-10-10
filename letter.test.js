@@ -2,13 +2,13 @@ const characterFor = require('./character').characterFor;
 
 test('prints character from alphabet', () => {
     let letterA = characterFor("a");
-    expect(letterA.printLetter()).toBe("_ ");
+    expect(letterA.display).toBe("_ ");
 
-    letterA.show = true;
-    expect(letterA.printLetter()).toBe("a");
+    letterA.setDisplayToValue();
+    expect(letterA.display).toBe("a");
 });
 
 test('prints space character', () => {
     let spaceCharacter = characterFor(" ");
-    expect(spaceCharacter.printLetter()).toBe(" ");
+    expect(spaceCharacter.display).toBe(" ");
 });
