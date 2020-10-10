@@ -1,4 +1,4 @@
-const Letter = require('./letter').letter;
+const characterFor = require('./character').characterFor;
 
 // constructor for spell
 function spell(value){
@@ -6,7 +6,7 @@ function spell(value){
 	this.letters = [];
 	this.guessesMade = "";
 	for(var i = 0; i < this.value.length; i++) {
-		this.letters.push(new Letter(this.value[i]));
+		this.letters.push(characterFor(this.value[i]));
 	}
 };
 
@@ -37,7 +37,7 @@ spell.prototype.findLetter = function(letter){
 	//Saves guesses so duplicate guesses don't subtract from guesses left.
 	this.guessesMade += lowerLetter;
 	for(var i=0; i<this.letters.length;i++){
-		if(this.letters[i].letter.toLowerCase() == lowerLetter){
+		if(this.letters[i].value.toLowerCase() == lowerLetter){
 		this.letters[i].show = true;
 		}
 	}
