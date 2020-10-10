@@ -1,14 +1,14 @@
 
 //Run this in the command line to run the game!
 var game = require("./game.js");
-var lettersInSpell = require("./word.js");
+var Word = require("./word.js").word;
 var inquirer = require("inquirer");
 
 var randomSpell = game.randomSpell;
 // var letterGuessed;
 exports.letter;
 
-var spellToGuess = new lettersInSpell.lettersInSpell(randomSpell);
+var spellToGuess = new Word(randomSpell);
 var maxGuesses = 15;
 
 function whichSpell(){
