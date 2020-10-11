@@ -2,6 +2,7 @@
 //Run this in the command line to run the game!
 var game = require("./game.js");
 var Word = require("./word.js").word;
+const characterFor = require("./character").characterFor;
 var inquirer = require("inquirer");
 
 var randomSpell = game.randomSpell;
@@ -11,33 +12,30 @@ exports.letter;
 var spellToGuess = new Word(randomSpell);
 var maxGuesses = 15;
 
+function response(spellToGuess, maxGuesses) {
+	if(spellToGuess.isComplete()){ 
+		return `Absolutetly magical! It was ${spellToGuess}!`
+	}
+	if (spellToGuess.guessesMade.length >= maxGuesses){
+		return `Are you sure you aren't a muggle? It was ${spellToGuess}!`;
+	}
+	return `You have ${maxGuesses - spellToGuess.guessesMade.length} guesses left.`
+}
+
 function whichSpell(){
 	console.log(spellToGuess.toString());
-	//When user runs out of guesses, message is logged.
-	if (spellToGuess.guessesMade.length >= maxGuesses){
-		console.log("Oopsie... Are you sure you aren't a muggle? It was " + randomSpell + "!");
-		return;
-	}
 	inquirer.prompt([{
 		name: 'letter',
 		type: 'text',
 		message: 'Enter a letter:'
-		}]).then(function(letterInput){
-				var letter = letterInput.letter; 
-				//check letter
-				spellToGuess.findLetter(letter);
-				//when user wins, then message is loggec.
-					if(spellToGuess.isComplete()){ 
-					console.log('Absolutely magical! ' + spellToGuess.toString() + ' it is!');
-					// breaks from prompt
-					return;
-					}
-				console.log('You have ' + (maxGuesses - spellToGuess.guessesMade.length) + ' guesses left.')
-				//keeps brining the word/guesses back to command line
-				whichSpell(); 
-				}
-  );
+		}]).then((letterInput) => {
+			spellToGuess.findLetter(characterFor(letterInput.letter));
+			console.log(response(spellToGuess, maxGuesses));
+			whichSpell();
+		});
 }
 
 //Starts game for the first time. 
 whichSpell();
+
+module.exports.response = response;

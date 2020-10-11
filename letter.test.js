@@ -2,7 +2,7 @@ const characterFor = require('./character').characterFor;
 
 test('prints character from alphabet', () => {
     let letterA = characterFor("a");
-    expect(letterA.display).toBe("_ ");
+    expect(letterA.display).toBe("_");
 
     letterA.setDisplayToValue();
     expect(letterA.display).toBe("a");
