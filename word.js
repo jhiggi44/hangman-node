@@ -18,14 +18,11 @@ class Word {
 
 	findLetter(character){
 		if(character.isInvalid()) {
-			console.log('1************************\n');
 			console.log("You've entered multiple letters... Which one did you mean?");
 			return "Multiple";
 		}
 	
-		console.log("find letter: " + character);
 		if (this.guessesMade.indexOf(character.value) != -1) {
-			console.log('2************************\n');
 			console.log("You've already entered that letter. Try Again!");
 			return "Duplicate";
 		} 
@@ -36,8 +33,6 @@ class Word {
 				letter.setDisplayToValue();
 			}
 		});
-	
-		console.log('************************\n');
 	};
 
 	toString(){

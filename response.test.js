@@ -1,4 +1,4 @@
-const response = require("./magic").response;
+const response = require("./response").response;
 var Word = require("./word.js").word;
 const characterFor = require("./character").characterFor;
 
@@ -8,8 +8,8 @@ test('guessing the word', () => {
 
     ["n", "o"].forEach((letter) => {
         spellToGuess.findLetter(characterFor(letter));
-        expect(response(spellToGuess, maxGuesses)).toBe(`You have ${maxGuesses - spellToGuess.guessesMade.length} guesses left.`)
+        expect(response(spellToGuess, maxGuesses).message).toBe(`You have ${maxGuesses - spellToGuess.guessesMade.length} guesses left.`)
     });
     spellToGuess.findLetter(characterFor("x"));
-    expect(response(spellToGuess, maxGuesses)).toBe(`Absolutetly magical! It was ${spellToGuess}!`);
+    expect(response(spellToGuess, maxGuesses).message).toBe(`Absolutetly magical! It was ${spellToGuess}!`);
 });
