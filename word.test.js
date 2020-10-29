@@ -1,34 +1,28 @@
 const { expect } = require('@jest/globals');
-const Word = require('./word').word;
+const { Word } = require('./word');
 const characterFor = require('./character').characterFor;
 
 test('word is not complete', () => {
-    const spell = new Word("expelliarmus");
-    expect(spell.isComplete()).toBe(false);
+    const word = new Word("expelliarmus");
+    expect(word.isComplete()).toBe(false);
 });
 
 test('word is complete', () => {
-    const spell = new Word("expelliarmus");
-    spell.letters.forEach(letter => {
+    const word = new Word("expelliarmus");
+    word.letters.forEach(letter => {
         letter.show = true;
     });
-    expect(spell.isComplete()).toBe(true);
+    expect(word.isComplete()).toBe(true);
 });
 
-test('guess wrong letter', () => {
-    const spell = new Word("lumos");
-    const guess = characterFor("z");
-    spell.findLetter(guess);
+test('matching characters', () => {
+    const word = new Word("expelliarmus");
+    const guess = characterFor("l");
+    const matchingCharacters = word.charactersMatching(guess);
+    matchingCharacters.forEach(char => {
+        char.setDisplayToValue();
+    });
 
-    expect(spell.guessesMade).toEqual("z");
-    expect(spell.toString()).toEqual("_ _ _ _ _");
-});
-
-test('guess right letter', () => {
-    const spell = new Word("lumos");
-    const guess = characterFor("U");
-    spell.findLetter(guess);
-
-    expect(spell.guessesMade).toEqual("u");
-    expect(spell.toString()).toEqual("_ u _ _ _");
+    expect(matchingCharacters.length).toEqual(2);
+    expect(word.toString()).toBe("_ _ _ _ l l _ _ _ _ _ _")
 });

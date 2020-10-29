@@ -1,36 +1,59 @@
 var inquirer = require("inquirer");
+const { responseFor, Response } = require("./response");
+const { Word } = require('./word');
+const { characterFor } = require('./character');
 
-const response = require("./response").response;
-const characterFor = require('./character').characterFor;
-var Word = require("./word.js").word;
+class Game {
+    constructor({ words, guesses }) {
+        this.words = words;
+		this.guesses = guesses;
+	}
+	
+	generateWordToGuess() {
+		var randomIndex = Math.floor(Math.random() * this.words.length);
+		var randomWord = this.words[randomIndex];
 
-//Random word is selected and exported
-// var spellArray = ["alohomora", 
-// "avada kedavra", "confundo","expelliarmus",
-// "levicorpus", "morsmordre", "obliviate", 
-// "prior incantato", "riddikulus"]; 
+		this.wordToGuess = new Word(randomWord);
+	}
 
-var spellArray = ["avada kedavra", "prior incantato"]; 
+	start() {
+		this.generateWordToGuess();
+		this.prompt();
+	}
 
-var random = Math.floor(Math.random() * spellArray.length);
-var randomSpell = spellArray[random];
+	prompt() {
+		console.log(this.wordToGuess.toString());
+		inquirer.prompt([{
+			name: 'letter',
+			type: 'text',
+			message: 'Enter a letter:'
+			}]).then((userInput) => {
+				console.log('\n****************************************************************');
+				const guess = characterFor(userInput.letter);
+				console.log(guess.value)
+				this.responseToGuess(guess).print();
+				console.log('****************************************************************\n');
+				this.prompt();
+			});
+	}
 
-var spellToGuess = new Word(randomSpell);
-var maxGuesses = 15;
+	responseToGuess(guess) {
+		if(guess.isInvalid()) {
+			return new Response("You've entered multiple letters... Which one did you mean?");
+		}
 
-function whichSpell(){
-	console.log(spellToGuess.toString());
-	inquirer.prompt([{
-		name: 'letter',
-		type: 'text',
-		message: 'Enter a letter:'
-		}]).then((letterInput) => {
-			console.log('\n****************************************************************');
-			spellToGuess.findLetter(characterFor(letterInput.letter));
-			response(spellToGuess, maxGuesses).print();
-			console.log('****************************************************************\n');
-			whichSpell();
-		});
+		if (this.guesses.addGuess(guess)) {
+			const characters = this.wordToGuess.charactersMatching(guess);
+			if (characters.length) {
+				characters.forEach(character => {
+					character.setDisplayToValue();
+				});
+			}
+			return responseFor(this.wordToGuess, this.guesses.remaining);
+		}
+
+		return new Response("You've already entered that letter. Try Again!");
+	}
 }
 
-whichSpell();
+module.exports.Game = Game;

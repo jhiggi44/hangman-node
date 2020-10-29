@@ -8,14 +8,15 @@ class Response {
 	}
 }
 
-function response(word, maxGuesses) {
+function responseFor(word, guessesLeft) {
 	if(word.isComplete()){ 
 		return new Response(`Absolutetly magical! It was ${word}!`);
 	}
-	if (word.guessesMade.length >= maxGuesses){
-		return new Response(`Are you sure you aren't a muggle? It was ${word}!`);
+	if (guessesLeft <= 0){
+		return new Response(`Are you sure you aren't a muggle? It was ${word.complete()}!`);
 	}
-	return new Response(`You have ${maxGuesses - word.guessesMade.length} guesses left.`);
+	return new Response(`You have ${guessesLeft} guesses left.`);
 }
 
-module.exports.response = response;
+module.exports.responseFor = responseFor;
+module.exports.Response = Response;

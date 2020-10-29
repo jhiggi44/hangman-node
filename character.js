@@ -8,7 +8,7 @@ class Character {
     }
 
     isInvalid() {
-        this.value.length > 1
+        return this.value.length > 1
     }
 
     setDisplayToValue() {
