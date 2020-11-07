@@ -9,10 +9,9 @@ class Word {
 	}
 
 	isComplete() {
-		for(var i = 0; i < this.letters.length; i++){
-			if(!this.letters[i].show) return false;
-		}
-		return true;
+		return this.letters.filter(letter => {
+			return letter.show;
+		}).length == this.letters.length;
 	}
 
 	complete() {

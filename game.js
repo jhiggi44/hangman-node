@@ -1,7 +1,8 @@
 var inquirer = require("inquirer");
-const { responseFor, Response } = require("./response");
+const { Response } = require("./response");
 const { Word } = require('./word');
 const { characterFor } = require('./character');
+const { fromGuess } = require("./event")
 
 class Game {
     constructor({ words, guesses }) {
@@ -10,12 +11,10 @@ class Game {
 	}
 	
 	generateWordToGuess() {
-		var randomIndex = Math.floor(Math.random() * this.words.length);
-		var randomWord = this.words[randomIndex];
-
-		this.wordToGuess = new Word(randomWord);
+		const atRandom = Math.floor(Math.random() * this.words.length);
+		this.wordToGuess = new Word(this.words[atRandom]);
 	}
-
+ 
 	start() {
 		this.generateWordToGuess();
 		this.prompt();
@@ -30,29 +29,27 @@ class Game {
 			}]).then((userInput) => {
 				console.log('\n****************************************************************');
 				const guess = characterFor(userInput.letter);
-				console.log(guess.value)
-				this.responseToGuess(guess).print();
+				console.log(guess.value);
+
+				fromGuess(guess, this).fire()
+
+				this.response().print()
+				console.log(this.guesses.list)
 				console.log('****************************************************************\n');
 				this.prompt();
 			});
 	}
 
-	responseToGuess(guess) {
-		if(guess.isInvalid()) {
-			return new Response("You've entered multiple letters... Which one did you mean?");
+	response() {
+		if(this.wordToGuess.isComplete()){ 
+			return new Response(`Absolutetly magical! It was ${this.wordToGuess}!`);
 		}
 
-		if (this.guesses.addGuess(guess)) {
-			const characters = this.wordToGuess.charactersMatching(guess);
-			if (characters.length) {
-				characters.forEach(character => {
-					character.setDisplayToValue();
-				});
-			}
-			return responseFor(this.wordToGuess, this.guesses.remaining);
+		if (this.guesses.remaining <= 0){
+			return new Response(`Are you sure you aren't a muggle? It was ${this.wordToGuess.complete()}!`);
 		}
 
-		return new Response("You've already entered that letter. Try Again!");
+		return new Response(`You have ${this.guesses.remaining} guesses left.`);
 	}
 }
 

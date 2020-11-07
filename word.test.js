@@ -4,7 +4,7 @@ const characterFor = require('./character').characterFor;
 
 test('word is not complete', () => {
     const word = new Word("expelliarmus");
-    expect(word.isComplete()).toBe(false);
+    expect(word.isComplete()).toBeFalsy;
 });
 
 test('word is complete', () => {
@@ -12,7 +12,7 @@ test('word is complete', () => {
     word.letters.forEach(letter => {
         letter.show = true;
     });
-    expect(word.isComplete()).toBe(true);
+    expect(word.isComplete()).toBeTruthy;
 });
 
 test('matching characters', () => {
