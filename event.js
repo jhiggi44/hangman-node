@@ -2,14 +2,8 @@ const { Response } = require("./response");
 
 class Event {
     static fromGuess(guess, game) {
-        if(guess.isInvalid()) {
-            return new ResponseEvent("You've entered multiple letters... Which one did you mean?");
-        } 
-        
-        if (game.guesses.hasGuessed(guess)) {
-            return new ResponseEvent("You've already entered that letter. Try Again!");
-        }
-
+        if (guess.isInvalid()) return new ResponseEvent("You've entered multiple letters... Which one did you mean?");
+        if (game.guesses.hasGuessed(guess)) return new ResponseEvent("You've already entered that letter. Try Again!");
         return new ProcessGuessEvent(guess, game.guesses, game.wordToGuess);
     }
 
