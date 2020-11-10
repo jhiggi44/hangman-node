@@ -2,7 +2,7 @@ var inquirer = require("inquirer");
 const { Response } = require("./response");
 const { Word } = require('./word');
 const { characterFor } = require('./character');
-const { fromGuess } = require("./event")
+const { fromGuess, nextPrompt } = require("./event")
 
 class Game {
     constructor({ words, guesses }) {
@@ -27,29 +27,10 @@ class Game {
 			type: 'text',
 			message: 'Enter a letter:'
 			}]).then((userInput) => {
-				console.log('\n****************************************************************');
 				const guess = characterFor(userInput.letter);
-				console.log(guess.value);
-
-				fromGuess(guess, this).fire()
-
-				this.response().print()
-				console.log(this.guesses.list)
-				console.log('****************************************************************\n');
-				this.prompt();
+				fromGuess(guess, this).fire();
+				nextPrompt(this).fire();
 			});
-	}
-
-	response() {
-		if(this.wordToGuess.isComplete()){ 
-			return new Response(`Absolutetly magical! It was ${this.wordToGuess}!`);
-		}
-
-		if (this.guesses.remaining <= 0){
-			return new Response(`Are you sure you aren't a muggle? It was ${this.wordToGuess.complete()}!`);
-		}
-
-		return new Response(`You have ${this.guesses.remaining} guesses left.`);
 	}
 }
 

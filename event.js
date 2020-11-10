@@ -23,10 +23,11 @@ class ResponseEvent extends Event {
 class ProcessGuessEvent extends Event {
     constructor(guess, guesses, wordToGuess) {
         super(() => {
+            new Response(`You guessed: ${this.guess.value}`).print();
             this.guesses.addGuess(this.guess);
             this.wordToGuess.charactersMatching(this.guess).forEach(character => {
                 character.setDisplayToValue();
-            }); 
+            });
         });
 
         this.guess = guess;
@@ -35,10 +36,23 @@ class ProcessGuessEvent extends Event {
     }
 }
 
+class NextGuessEvent extends Event {
+    constructor(game) {
+        super(() => {
+            new Response(`You have ${this.game.guesses.remaining} guesses left.`).print();
+            new Response(this.game.guesses.toString()).print();
+            this.game.prompt();
+        });
+
+        this.game = game;
+    }
+}
+
+
 function fromGuess(guess, game) {
     if(guess.isInvalid()) {
-        return new ResponseEvent("You've entered multiple letters... Which one did you mean?")
-    } 
+        return new ResponseEvent("You've entered multiple letters... Which one did you mean?");
+    }
 
     if (game.guesses.hasGuessed(guess)) {
         return new ResponseEvent("You've already entered that letter. Try Again!");
@@ -47,4 +61,15 @@ function fromGuess(guess, game) {
     return new ProcessGuessEvent(guess, game.guesses, game.wordToGuess);
 }
 
+function nextPrompt(game) {
+    if (game.wordToGuess.isComplete()) { 
+        return new ResponseEvent(`Absolutetly magical! It was ${game.wordToGuess}!`);
+    } else if (game.guesses.remaining <= 0) {
+        return new ResponseEvent(`Are you sure you aren't a muggle? It was ${game.wordToGuess.complete()}!`);
+    } else {
+        return new NextGuessEvent(game);
+    }
+}
+
 module.exports.fromGuess = fromGuess;
+module.exports.nextPrompt = nextPrompt;

@@ -14,6 +14,12 @@ class Guesses {
 			return value.equals(character);
 		}).length;
 	}
+
+	toString() {
+		return "Guesses: " + this.list.map((character) => {
+			return character.value;
+		}).join(", ") + "\n";
+	}
 }
 
 module.exports.Guesses = Guesses;
