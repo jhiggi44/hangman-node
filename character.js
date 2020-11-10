@@ -16,7 +16,7 @@ class Character {
         this.show = true;
     }
 
-    equals(character) {
+    isEqualTo(character) {
        return this.value === character.value 
     }
 }

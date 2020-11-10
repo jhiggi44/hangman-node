@@ -1,5 +1,4 @@
 var inquirer = require("inquirer");
-const { Response } = require("./response");
 const { Word } = require('./word');
 const { characterFor } = require('./character');
 const { Event } = require("./event")

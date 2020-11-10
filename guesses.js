@@ -11,7 +11,7 @@ class Guesses {
 
 	hasGuessed(character) {
 		return this.list.filter(value => {
-			return value.equals(character);
+			return value.isEqualTo(character);
 		}).length;
 	}
 

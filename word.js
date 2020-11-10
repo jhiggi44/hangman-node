@@ -13,18 +13,10 @@ class Word {
 			return letter.show;
 		}).length == this.letters.length;
 	}
-
-	complete() {
-		this.letters.forEach(letter => {
-			letter.setDisplayToValue();
-		});
-
-		return this;
-	}
 	
 	charactersMatching(character) {
 		return this.letters.filter(letter => {
-			return letter.equals(character);
+			return letter.isEqualTo(character);
 		});
 	}
 
