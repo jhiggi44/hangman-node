@@ -1,6 +1,28 @@
 const { Response } = require("./response");
 
 class Event {
+    static fromGuess(guess, game) {
+        if(guess.isInvalid()) {
+            return new ResponseEvent("You've entered multiple letters... Which one did you mean?");
+        } 
+        
+        if (game.guesses.hasGuessed(guess)) {
+            return new ResponseEvent("You've already entered that letter. Try Again!");
+        }
+
+        return new ProcessGuessEvent(guess, game.guesses, game.wordToGuess);
+    }
+
+    static forNextPrompt(game) {
+        if (game.wordToGuess.isComplete()) { 
+            return new ResponseEvent(`Absolutetly magical! It was ${game.wordToGuess}!`);
+        } else if (game.guesses.remaining <= 0) {
+            return new ResponseEvent(`Are you sure you aren't a muggle? It was ${game.wordToGuess.complete()}!`);
+        } else {
+            return new NextGuessEvent(game);
+        }
+    }
+
     constructor(func) {
         this.func = func
     }
@@ -48,28 +70,4 @@ class NextGuessEvent extends Event {
     }
 }
 
-
-function fromGuess(guess, game) {
-    if(guess.isInvalid()) {
-        return new ResponseEvent("You've entered multiple letters... Which one did you mean?");
-    }
-
-    if (game.guesses.hasGuessed(guess)) {
-        return new ResponseEvent("You've already entered that letter. Try Again!");
-    }
-
-    return new ProcessGuessEvent(guess, game.guesses, game.wordToGuess);
-}
-
-function nextPrompt(game) {
-    if (game.wordToGuess.isComplete()) { 
-        return new ResponseEvent(`Absolutetly magical! It was ${game.wordToGuess}!`);
-    } else if (game.guesses.remaining <= 0) {
-        return new ResponseEvent(`Are you sure you aren't a muggle? It was ${game.wordToGuess.complete()}!`);
-    } else {
-        return new NextGuessEvent(game);
-    }
-}
-
-module.exports.fromGuess = fromGuess;
-module.exports.nextPrompt = nextPrompt;
+module.exports.Event = Event;
