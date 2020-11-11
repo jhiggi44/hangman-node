@@ -1,6 +1,6 @@
 const { expect } = require('@jest/globals');
-const { Word } = require('./word');
-const { Character } = require('./character');
+const { Word } = require('../word');
+const { Character } = require('../character');
 
 describe('isComplete', () => {
     test('when the word is not complete', () => {
