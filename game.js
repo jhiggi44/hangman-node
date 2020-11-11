@@ -31,6 +31,6 @@ class Game {
 				Event.forNextPrompt(this).fire();
 			});
 	}
-}
+} 
 
 module.exports.Game = Game;
