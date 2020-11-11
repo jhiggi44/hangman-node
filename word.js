@@ -1,10 +1,10 @@
-const characterFor = require('./character').characterFor;
+const { Character } = require('./character');
 
 class Word {
 	constructor(value) {
 		this.value = value;
 		this.letters = value.split("").map((character) => {
-			return characterFor(character);
+			return Character.for(character);
 		});
 	}
 

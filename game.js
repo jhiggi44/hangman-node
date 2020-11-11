@@ -1,6 +1,6 @@
 var inquirer = require("inquirer");
 const { Word } = require('./word');
-const { characterFor } = require('./character');
+const { Character } = require('./character');
 const { Event } = require("./event")
 
 class Game {
@@ -26,7 +26,7 @@ class Game {
 			type: 'text',
 			message: 'Enter a letter:'
 			}]).then((userInput) => {
-				const guess = characterFor(userInput.letter);
+				const guess = Character.for(userInput.letter);
 				Event.fromGuess(guess, this).fire();
 				Event.forNextPrompt(this).fire();
 			});

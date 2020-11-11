@@ -1,6 +1,11 @@
-'use strict';
-
 class Character {
+    static for(value) {
+        if (value === " ") {
+            return new Space(value);
+        }
+        return new Character(value);
+    }
+
     constructor(value) {
         this.value = value.toLowerCase();
         this.display = "_";
@@ -29,11 +34,4 @@ class Space extends Character {
     }
 }
 
-function characterFor(value) {
-    if (value === " ") {
-        return new Space(value);
-    }
-    return new Character(value);
-}
-
-module.exports.characterFor = characterFor;
+module.exports.Character = Character;
