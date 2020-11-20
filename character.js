@@ -16,7 +16,7 @@ class Character {
         return this.value.length > 1
     }
 
-    setDisplayToValue() {
+    showValue() {
         this.display = this.value;
         this.show = true;
     }
@@ -35,3 +35,4 @@ class Space extends Character {
 }
 
 module.exports.Character = Character;
+module.exports.Space = Space;

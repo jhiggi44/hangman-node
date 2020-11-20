@@ -23,13 +23,13 @@ class Event {
 }
 
 class MessageEvent extends Event {
-    constructor(response) {
+    constructor(text) {
         super();
-        this.response = response;
+        this.message = new Message(text);
     }
 
     func() {
-        new Message(this.response).print();
+        this.message.print();
     }
 }
 
@@ -45,7 +45,7 @@ class ProcessGuessEvent extends Event {
         new Message(`You guessed: ${this.guess.value}`).print();
         this.guesses.addGuess(this.guess);
         this.wordToGuess.charactersMatching(this.guess).forEach(character => {
-            character.setDisplayToValue();
+            character.showValue();
         });
     }
 }

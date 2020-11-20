@@ -1,5 +1,4 @@
 var inquirer = require("inquirer");
-const { Word } = require('./word');
 const { Character } = require('./character');
 const { Event } = require("./event")
 
@@ -11,7 +10,7 @@ class Game {
 	
 	generateWordToGuess() {
 		const atRandom = Math.floor(Math.random() * this.words.length);
-		this.wordToGuess = new Word(this.words[atRandom]);
+		this.wordToGuess = this.words[atRandom];
 	}
  
 	start() {

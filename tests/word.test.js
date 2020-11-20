@@ -39,7 +39,7 @@ describe('toString', () => {
         const word = new Word("foo");
         
         word.charactersMatching(Character.for("o")).forEach((character) => {
-            character.setDisplayToValue();
+            character.showValue();
         });
 
         expect(word.toString()).toBe("_ o o");
