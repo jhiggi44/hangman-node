@@ -1,12 +1,35 @@
-//Random word is selected and exported
-// var spellArray = ["alohomora", 
-// "avada kedavra", "confundo","expelliarmus",
-// "levicorpus", "morsmordre", "obliviate", 
-// "prior incantato", "riddikulus"]; 
+var inquirer = require("inquirer");
+const { Character } = require('./character');
+const { Event } = require("./event")
 
-var spellArray = [ "avada kedavra", "prior incantato"]; 
+class Game {
+    constructor({ words, guesses }) {
+        this.words = words;
+		this.guesses = guesses;
+	}
+	
+	generateWordToGuess() {
+		const atRandom = Math.floor(Math.random() * this.words.length);
+		this.wordToGuess = this.words[atRandom];
+	}
+ 
+	start() {
+		this.generateWordToGuess();
+		this.prompt();
+	}
 
-var random = Math.floor(Math.random() * spellArray.length);
-var randomSpell = spellArray[random];
+	prompt() {
+		console.log(this.wordToGuess.toString());
+		inquirer.prompt([{
+			name: 'letter',
+			type: 'text',
+			message: 'Enter a letter:'
+			}]).then((userInput) => {
+				const guess = Character.for(userInput.letter);
+				Event.fromGuess(guess, this).fire();
+				Event.forNextPrompt(this).fire();
+			});
+	}
+} 
 
-exports.randomSpell = randomSpell;
+module.exports.Game = Game;
